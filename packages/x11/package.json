@@ -1,0 +1,17 @@
+{
+  "name": "@colorcodes/x11",
+  "private": false,
+  "description": "X11 Color Codes",
+  "version": "0.1.0",
+  "author": "rich soni <rich@richsoni.com>",
+  "main": "index.js",
+  "dependencies": {
+  },
+  "license": "MIT",
+  "scripts": {
+  },
+  "repository": {
+  },
+  "bugs": {
+  }
+}
