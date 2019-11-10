@@ -7,7 +7,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.game form {
+.round form {
   height: 100vh;
   width: 100vw;
   display: flex;
@@ -16,20 +16,20 @@ body {
   justify-content: center;
 }
 
-.game h1 {
+.round h1 {
   font-size: 8vh;
 }
 
-.game h2 {
+.round h2 {
   font-size: 4vh;
   font-style: italic;
 }
 
-.game h1 + h2 {
+.round h1 + h2 {
   margin-top: 0;
 }
 
-.game input {
+.round input {
   margin: .5em;
   width: 75vh;
   height: 8vh;
@@ -43,11 +43,11 @@ body {
   padding: .25em;
 }
 
-.game input:focus {
+.round input:focus {
   outline: none;
 }
 
-.game input[type='submit'] {
+.round input[type='submit'] {
   width: auto;
   height: auto;
   padding: .5em;

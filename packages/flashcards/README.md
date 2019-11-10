@@ -1,3 +1,43 @@
+# The Game
+
+1. The `Game` is single `player`
+1. The `Game` accepts a list of `inputColors`
+1. The `Game` has three states:  `begin`, 'active', and 'complete'
+1. The `Game` begins in the `begin` state
+1. The `Game` has `scoring`
+
+## The begin State
+
+1. The `begin` state only occurs once, at the beginning of the game
+1. The `player` should be able to transition the 'begin' state to 'active'
+
+## The active State
+
+1. The `active` state has numerous `Rounds`
+1. The first `Round`, begins upon transition to the `active` state
+1. The number of `Rounds` is equal to the number of `inputColors`
+1. Each `Round` is provided with a random but unique value selected from `inputColors`
+1. The result of each `Round` is provided to the Game, and tallied as `correct` or `incorrect` by the `scoring`
+1. After the last round The `Game` transitions to the 'complete' state
+
+### The Round
+1. The `Round` accepts a single `unnamedColor`
+1. The `Round` has two states: 'active', and 'complete'
+1. The `Round` begins in the `active` state
+1. The `Round` presents a swatch to the `player`, which shaded with the `unnamedColor`
+1. The `player` has one `guess` at the `unnamedColor`
+1. A `guess` transitions the `Round`'s state to `complete`
+1. The `complete` state reveals unnamedColor's name to the `player`
+1. The `complete` state indicates to the player the correctness of their guess
+1. The `player` ends the complete state by pressing any key, or touching the screen
+1. After the `complete` state the `Round` is over
+
+## The complete State
+1. The `complete` state displays final `scoring`
+1. The `player` can `reset` the `Game` from the `complete` state
+
+# Create React App
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
