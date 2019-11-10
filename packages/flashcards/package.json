@@ -4,9 +4,12 @@
   "private": true,
   "dependencies": {
     "@colorcodes/x11": "0.1.0",
+    "color": "^3.1.2",
+    "lodash": "^4.17.15",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
-    "react-scripts": "3.2.0"
+    "react-scripts": "3.2.0",
+    "semantic-ui-react": "^0.88.1"
   },
   "scripts": {
     "start": "react-scripts start",
