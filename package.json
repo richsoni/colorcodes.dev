@@ -10,6 +10,6 @@
   },
   "scripts": {
     "clean:implode": "lerna exec 'rm -rf node_modules' && rm -rf node_modules",
-    "build:web": "lerna run build --scope='@colorcodes/flashcards' --stream"
+    "build:flashcards": "lerna run build --scope='@colorcodes/flashcards' --stream"
   }
 }
