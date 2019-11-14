@@ -18,7 +18,7 @@ export default ({onStartClick = () => {}}) => {
         >
            <Icon name='paint brush' />
            CSS Color Quiz
-          <Header.Subheader as='h2'>
+          <Header.Subheader>
             Guess the background by CSS Color name
           </Header.Subheader>
         </Header>

@@ -5,42 +5,14 @@ import {sample} from 'lodash';
 import Color from 'color';
 import {Icon, Label, Input, Container, Segment, Header, Button, Form} from 'semantic-ui-react';
 
-const newGame = {
-  score: {
-    correct: 0,
-    incorrect: 0,
-  },
-  guesses: []
-}
-
-const scoreReducer = (oldState, action) => {
-  switch(action.type){
-    case 'correct': return {
-      ...oldState,
-      correct: oldState.correct + 1,
-    }
-
-    case 'incorrect': return {
-      ...oldState,
-      incorrect: oldState.incorrect + 1,
-    }
-  }
-}
-
-const gameReducer = (oldState, action) => {
-  return {
-    score: scoreReducer(oldState.score, action),
-  }
-}
-
-export default ({onSubmit, color, inputColors, gameState, beginTransition, activeTransition, completeTransition}) => {
+export default ({onSubmit, color, onAnswer}) => {
   const [guess, setGuess] = useState('');
   const [complete, setComplete] = useState(false);
 
   if(!complete) {
-    const submitGuess = (e) => {
-      e.preventDefault();
-      onSubmit()
+    const submitAnswer = () => {
+      onAnswer(guess)
+      setGuess('')
     }
 
     const isDark = Color(color.hex).isDark();
@@ -48,7 +20,7 @@ export default ({onSubmit, color, inputColors, gameState, beginTransition, activ
     const bgColor = !isDark ? 'white' : 'black';
 
     return (
-          <Form onSubmit={submitGuess}>
+          <Form onSubmit={submitAnswer}>
              <Segment style={{paddingTop: '2rem'}}>
                 <Label style={{fontSize: '1rem'}} attached='top left' >background-color:</Label>
                 <Input
@@ -58,6 +30,7 @@ export default ({onSubmit, color, inputColors, gameState, beginTransition, activ
                    value={guess}
                    onChange={(e) => setGuess(e.target.value)}
                    labelPosition='left'
+                   actionPosition='right'
                    style={{
                      fontSize: '2.5rem',
                      color: fgColor,

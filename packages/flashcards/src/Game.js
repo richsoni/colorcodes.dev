@@ -4,47 +4,17 @@ import {shuffle} from 'lodash';
 import x11 from '@colorcodes/x11';
 import {sample} from 'lodash';
 import Color from 'color';
-import {Icon, Label, Input, Container, Segment, Header, Button, Form} from 'semantic-ui-react';
+import {Progress, Statistic, Icon, Label, Input, Container, Segment, Header, Button, Form} from 'semantic-ui-react';
 import Question from './Question';
 import Round from './Round';
 
-const newGame = {
-  score: {
-    correct: 0,
-    incorrect: 0,
-  },
-  guesses: []
-}
-
-const scoreReducer = (oldState, action) => {
-  switch(action.type){
-    case 'correct': return {
-      ...oldState,
-      correct: oldState.correct + 1,
-    }
-
-    case 'incorrect': return {
-      ...oldState,
-      incorrect: oldState.incorrect + 1,
-    }
-  }
-}
-
-const gameReducer = (oldState, action) => {
-  return {
-    score: scoreReducer(oldState.score, action),
-  }
-}
-
 export default ({inputColors, onDone}) => {
-  const [correct, setCorrect] = useState(0);
-  const [incorrect, setIncorrect] = useState(0);
   const [rounds, setRounds] = useState(shuffle(inputColors))
   const [roundIndex, setRoundIndex] = useState(0)
+  const [results, setResults] = useState([])
 
-  const onRoundDone = (corret) => {
-    if(correct){ setCorrect(correct+1) }
-    else { setIncorrect(incorrect+1) }
+  const onRoundDone = (result) => {
+    setResults(results.concat([result]))
     if(roundIndex < rounds.length){
       setRoundIndex(roundIndex+1)
     } else {
@@ -52,6 +22,29 @@ export default ({inputColors, onDone}) => {
     }
   }
 
+  const correct = results.filter((item) => item.correct).length
+  const incorrect = results.filter((item) => !item.correct).length
+
   const color = rounds[roundIndex];
-  return (<Round color={color} onDone={onRoundDone} />);
+  const fgColor = Color(color.hex).isDark() ? 'white' : 'black';
+  return (
+    <Round color={color} onDone={onRoundDone}>
+      <Round.Container>
+        <Header as='h1' style={{color: fgColor}}>CSS Color Quiz</Header>
+        <Round.Question />
+        <Segment>
+           <Progress size='medium' value={roundIndex} total={rounds.length} progress='ratio' />
+           <Statistic color='green'>
+              <Statistic.Value>{correct}</Statistic.Value>
+              <Statistic.Label>correct</Statistic.Label>
+            </Statistic>
+           <Statistic color='red'>
+              <Statistic.Value>{incorrect}</Statistic.Value>
+              <Statistic.Label>incorrect</Statistic.Label>
+           </Statistic>
+          {results.reverse().map((x) => (<Round.Result {...x} />))}
+        </Segment>
+      </Round.Container>
+    </Round>
+  );
 }
