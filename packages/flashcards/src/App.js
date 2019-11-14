@@ -16,10 +16,7 @@ function App() {
   if(gameState === GAME_STATES.RUNNING){
     return <Game
       inputColors={x11}
-      gameState={gameState}
-      beginTransition={() => setGameState('begin')}
-      activeTransition={() => setGameState('active')}
-      completeTransition={() => setGameState('complete')}
+      onDone={() => setGameState(GAME_STATES.DONE)}
     />
   }
   if(gameState === GAME_STATES.DONE){

@@ -1,8 +1,12 @@
 import React, {useState, useReducer} from 'react';
 import './App.css';
+import {shuffle} from 'lodash';
 import x11 from '@colorcodes/x11';
 import {sample} from 'lodash';
 import Color from 'color';
+import {Icon, Label, Input, Container, Segment, Header, Button, Form} from 'semantic-ui-react';
+import Question from './Question';
+import Round from './Round';
 
 const newGame = {
   score: {
@@ -32,51 +36,22 @@ const gameReducer = (oldState, action) => {
   }
 }
 
-export default ({inputColors, gameState, beginTransition, activeTransition, completeTransition}) => {
-  const [color, setColor] = useState(sample(x11));
-  const [guess, setGuess] = useState('');
+export default ({inputColors, onDone}) => {
+  const [correct, setCorrect] = useState(0);
+  const [incorrect, setIncorrect] = useState(0);
+  const [rounds, setRounds] = useState(shuffle(inputColors))
+  const [roundIndex, setRoundIndex] = useState(0)
 
-  const [state, dispatch] = useReducer(gameReducer, newGame);
-
-  const fgColor = Color(color.hex).isDark() ? 'white' : 'black'
-
-  const endRound = (e) => {
-    e.preventDefault();
-    if(e.target.value === color.name){
-      dispatch({type: 'correct'})
+  const onRoundDone = (corret) => {
+    if(correct){ setCorrect(correct+1) }
+    else { setIncorrect(incorrect+1) }
+    if(roundIndex < rounds.length){
+      setRoundIndex(roundIndex+1)
     } else {
-      dispatch({type: 'incorrect'})
+      onDone()
     }
-    setGuess('')
-    setColor(sample(x11))
   }
 
-  return (
-    <div className="round" style={{
-      background: color.hex,
-    }}>
-      <form onSubmit={endRound}>
-        <h1 style={{color: fgColor}}>CSS Color Quiz!</h1>
-        <h2 style={{color: fgColor}}>Guess the background by CSS Color name</h2>
-        <input
-           type='text'
-           autoFocus
-           value={guess}
-           onChange={(e) => setGuess(e.target.value)}
-           style={{
-             color: fgColor,
-             borderColor: fgColor,
-           }} />
-        <input
-           type='submit'
-           value='Submit Guess'
-           style={{
-             background: fgColor,
-             color: color.hex,
-           }}
-        />
-        <h2 style={{color: fgColor}}>Score: {state.score.correct} correct, {state.score.incorrect} incorrect </h2>
-      </form>
-    </div>
-  );
+  const color = rounds[roundIndex];
+  return (<Round color={color} onDone={onRoundDone} />);
 }

@@ -4,35 +4,28 @@ import { Icon, Container, Button, Header, Segment } from 'semantic-ui-react'
 export default ({onStartClick = () => {}}) => {
   return (
     <Segment
-      inverted
+      placeholder
       textAlign='center'
-      style={{ minHeight: '100vh', padding: '1em 0em' }}
+      vertical
+      inverted
+      style={{fontSize: '2rem', minHeight: '100vh' }}
     >
-      <Container textAlign='center' text>
         <Header
           as='h1'
-          content='CSS Color Quiz!'
+          size='huge'
           inverted
-          style={{
-            marginTop: '25vh',
-            fontSize: '4em',
-            fontWeight: 'normal',
-            marginBottom: 0,
-          }}
-        />
-        <Header
-          as='h2'
-          content='Guess the background by CSS Color name'
-          inverted
-          style={{
-            fontWeight: 'normal',
-          }}
-        />
+          icon
+        >
+           <Icon name='paint brush' />
+           CSS Color Quiz
+          <Header.Subheader as='h2'>
+            Guess the background by CSS Color name
+          </Header.Subheader>
+        </Header>
         <Button onClick={onStartClick} primary size='huge'>
           Get Started
           <Icon name='right arrow' />
         </Button>
-      </Container>
     </Segment>
   );
 };
