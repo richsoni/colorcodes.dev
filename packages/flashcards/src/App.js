@@ -1,84 +1,33 @@
-import React, {useState, useReducer} from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import x11 from '@colorcodes/x11';
-import {sample} from 'lodash';
-import Color from 'color';
+import Game from './Game';
+import GameSplash from './GameSplash';
 
-const newGame = {
-  score: {
-    correct: 0,
-    incorrect: 0,
-  },
-  guesses: []
+const GAME_STATES = {
+  READY: 'READY',
+  RUNNING: 'RUNNING',
+  DONE: 'DONE',
 }
 
-const scoreReducer = (oldState, action) => {
-  switch(action.type){
-    case 'correct': return {
-      ...oldState,
-      correct: oldState.correct + 1,
-    }
-
-    case 'incorrect': return {
-      ...oldState,
-      incorrect: oldState.incorrect + 1,
-    }
+function App() {
+  const [gameState, setGameState] = useState(GAME_STATES.READY)
+  const [scoring, updateScoring] = useState({correct: 0, incorrect: 0})
+  if(gameState === GAME_STATES.RUNNING){
+    return <Game
+      inputColors={x11}
+      gameState={gameState}
+      beginTransition={() => setGameState('begin')}
+      activeTransition={() => setGameState('active')}
+      completeTransition={() => setGameState('complete')}
+    />
   }
-}
-
-const gameReducer = (oldState, action) => {
-  return {
-    score: scoreReducer(oldState.score, action),
+  if(gameState === GAME_STATES.DONE){
+    return <div>DONE</div>
   }
-}
-
-function Game() {
-  const [color, setColor] = useState(sample(x11));
-  const [guess, setGuess] = useState('');
-
-  const [gameState, dispatch] = useReducer(gameReducer, newGame);
-
-  const fgColor = Color(color.hex).isDark() ? 'white' : 'black'
-
-  const endRound = (e) => {
-    e.preventDefault();
-    if(e.target.value === color.name){
-      dispatch({type: 'correct'})
-    } else {
-      dispatch({type: 'incorrect'})
-    }
-    setGuess('')
-    setColor(sample(x11))
-  }
-
   return (
-    <div className="round" style={{
-      background: color.hex,
-    }}>
-      <form onSubmit={endRound}>
-        <h1 style={{color: fgColor}}>CSS Color Quiz!</h1>
-        <h2 style={{color: fgColor}}>Guess the background by CSS Color name</h2>
-        <input
-           type='text'
-           autoFocus
-           value={guess}
-           onChange={(e) => setGuess(e.target.value)}
-           style={{
-             color: fgColor,
-             borderColor: fgColor,
-           }} />
-        <input
-           type='submit'
-           value='Submit Guess'
-           style={{
-             background: fgColor,
-             color: color.hex,
-           }}
-        />
-        <h2 style={{color: fgColor}}>Score: {gameState.score.correct} correct, {gameState.score.incorrect} incorrect </h2>
-      </form>
-    </div>
+    <GameSplash onStartClick={() => setGameState(GAME_STATES.RUNNING) } />
   );
 }
 
-export default Game;
+export default App;
