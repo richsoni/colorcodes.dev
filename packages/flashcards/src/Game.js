@@ -22,8 +22,8 @@ export default ({inputColors, onDone}) => {
     }
   }
 
-  const correct = results.filter((item) => item.correct).length
-  const incorrect = results.filter((item) => !item.correct).length
+  const correct = results.filter((item) => item.isCorrect).length
+  const incorrect = results.filter((item) => !item.isCorrect).length
 
   const color = rounds[roundIndex];
   const fgColor = Color(color.hex).isDark() ? 'white' : 'black';
@@ -42,7 +42,7 @@ export default ({inputColors, onDone}) => {
               <Statistic.Value>{incorrect}</Statistic.Value>
               <Statistic.Label>incorrect</Statistic.Label>
            </Statistic>
-          {results.reverse().map((x) => (<Round.Result {...x} />))}
+          {results.reverse().map((x, i) => (<Round.Result {...x} key={i} />))}
         </Segment>
       </Round.Container>
     </Round>
