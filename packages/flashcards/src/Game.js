@@ -37,7 +37,8 @@ export default ({inputColors, onDone}) => {
   const incorrect = results.filter((item) => !item.isCorrect).length
 
   const color = rounds[roundIndex];
-  const fgColor = Color(color.hex).isDark() ? 'white' : 'black';
+  const isDark = Color(color.hex).isDark()
+  const fgColor = isDark ? 'white' : 'black';
   return (
     <Round color={color} onDone={onRoundDone}>
       <Round.Container>
@@ -49,20 +50,19 @@ export default ({inputColors, onDone}) => {
             />
         <LogoSegment backgroundColor={color.hex} color={fgColor}/>
         <Round.Question />
+          <Progress inverted={isDark} size='small' value={roundIndex + 1} total={rounds.length} progress='ratio' />
         </Segment>
         <Segment>
-           <Header>Progress</Header>
-           <Progress size='medium' value={roundIndex} total={rounds.length} progress='ratio' />
-           <Statistic color='green'>
-              <Statistic.Value>{correct}</Statistic.Value>
-              <Statistic.Label>correct</Statistic.Label>
-            </Statistic>
-           <Statistic color='red'>
-              <Statistic.Value>{incorrect}</Statistic.Value>
-              <Statistic.Label>incorrect</Statistic.Label>
-           </Statistic>
-          {results.reverse().map((x, i) => (<Round.Result {...x} key={i} />))}
-        </Segment>
+        <Statistic horizontal size='mini' color='green'>
+           <Statistic.Value>{correct}</Statistic.Value>
+           <Statistic.Label>correct</Statistic.Label>
+         </Statistic>
+        <Statistic horizontal size='mini' color='red'>
+           <Statistic.Value>{incorrect}</Statistic.Value>
+           <Statistic.Label>incorrect</Statistic.Label>
+        </Statistic>
+        {results.reverse().map((x, i) => (<Round.Result {...x} key={i} />))}
+    </Segment>
       </Round.Container>
     </Round>
   );

@@ -12,7 +12,7 @@ const GAME_STATES = {
 }
 
 function App() {
-  const [gameState, setGameState] = useState(GAME_STATES.READY)
+  const [gameState, setGameState] = useState(GAME_STATES.RUNNING)
   const [scoring, updateScoring] = useState({correct: 0, incorrect: 0})
   if(gameState === GAME_STATES.RUNNING){
     return <Game

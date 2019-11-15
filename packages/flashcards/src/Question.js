@@ -25,7 +25,7 @@ export default ({onSubmit, color, onAnswer}) => {
             <Input
                fluid
                type='text'
-               size='massive'
+               size='large'
                autoFocus
                value={guess}
                onChange={(e) => setGuess(e.target.value)}
@@ -33,7 +33,7 @@ export default ({onSubmit, color, onAnswer}) => {
                labelPosition='left corner'
             /><br />
            <Button
-             size='massive'
+             size='large'
              type='submit'
              icon
              style={{backgroundColor: color.hex, color: fgColor, border: `1px solid ${fgColor}`}}
