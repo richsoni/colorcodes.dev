@@ -4,7 +4,7 @@ import {shuffle} from 'lodash';
 import x11 from '@colorcodes/x11';
 import {sample} from 'lodash';
 import Color from 'color';
-import {Menu, Progress, Statistic, Icon, Label, Input, Container, Segment, Header, Button, Form} from 'semantic-ui-react';
+import {Message,Menu, Progress, Statistic, Icon, Label, Input, Container, Segment, Header, Button, Form} from 'semantic-ui-react';
 import Question from './Question';
 import Round from './Round';
 import {LogoSegment} from './Logo';
@@ -40,11 +40,18 @@ export default ({inputColors, onDone}) => {
   const fgColor = Color(color.hex).isDark() ? 'white' : 'black';
   return (
     <Round color={color} onDone={onRoundDone}>
-      <Menu>
-      </Menu>
       <Round.Container>
-        <LogoSegment />
+        <Segment attached>
+            <Message
+              icon='question'
+              header='Given The Following Card'
+              content="Guess It's X11 Color"
+            />
+        <LogoSegment backgroundColor={color.hex} color={fgColor}/>
+        <Round.Question />
+        </Segment>
         <Segment>
+           <Header>Progress</Header>
            <Progress size='medium' value={roundIndex} total={rounds.length} progress='ratio' />
            <Statistic color='green'>
               <Statistic.Value>{correct}</Statistic.Value>
@@ -54,11 +61,8 @@ export default ({inputColors, onDone}) => {
               <Statistic.Value>{incorrect}</Statistic.Value>
               <Statistic.Label>incorrect</Statistic.Label>
            </Statistic>
-        </Segment>
-        <Round.Question />
-        <Results>
           {results.reverse().map((x, i) => (<Round.Result {...x} key={i} />))}
-        </Results>
+        </Segment>
       </Round.Container>
     </Round>
   );

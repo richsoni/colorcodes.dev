@@ -1,12 +1,15 @@
 import React from 'react';
-import { Icon, Container, Button, Header, Segment } from 'semantic-ui-react'
+import {Message, Icon, Container, Button, Header, Segment } from 'semantic-ui-react'
 
-export const LogoSegment = () => {
-  return (<Segment>
+export const LogoSegment = ({color, backgroundColor}) => {
+  return (    <Segment
+      style={{color, backgroundColor}}
+    >
     <Header
       as='h1'
       size='huge'
       icon
+      style={{color, backgroundColor}}
     >
        <Icon name='paint brush' />
        colorcodes.dev

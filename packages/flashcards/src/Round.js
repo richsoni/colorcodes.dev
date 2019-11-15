@@ -36,10 +36,7 @@ const RoundContainer = ({children}) => {
   const {color, onAnswer, fgColor} = useContext(RoundContext);
 
   return (
-    <Segment
-      inverted
-      style={{ background: color.hex, minHeight: '100vh', padding: '3em 0em' }}
-    >
+    <Segment style={{borderRadius:0, background: color.hex, minHeight: '100vh', padding: '3em 0em' }} >
     <Container textAlign='center' text>
       {children}
     </Container>

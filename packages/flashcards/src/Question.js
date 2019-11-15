@@ -21,30 +21,24 @@ export default ({onSubmit, color, onAnswer}) => {
 
     return (
       <Form onSubmit={submitAnswer}>
-         <Segment>
-            <Label style={{fontSize: '1rem'}} attached='top left' >background-color:</Label>
+        <Segment>
             <Input
                fluid
                type='text'
+               size='massive'
                autoFocus
                value={guess}
                onChange={(e) => setGuess(e.target.value)}
-               labelPosition='left'
-               actionPosition='right'
-               style={{
-                 fontSize: '2.5rem',
-                 color: fgColor,
-                 borderColor: fgColor,
-               }}>
-                 <input />
-              </Input>
-              <Button
-                fluid
-                size='massive'
-                style={{backgroundColor: color.hex, color: fgColor}}
-                 type='submit'
-              >Guess</Button>
-          </Segment>
+               label={<Label style={{color: fgColor, borderColor: color.hex}} icon='paint brush' />}
+               labelPosition='left corner'
+            /><br />
+           <Button
+             size='massive'
+             type='submit'
+             icon
+             style={{backgroundColor: color.hex, color: fgColor, border: `1px solid ${fgColor}`}}
+           >Guess</Button>
+      </Segment>
       </Form>
     );
   }

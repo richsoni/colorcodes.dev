@@ -12,7 +12,7 @@ const GAME_STATES = {
 }
 
 function App() {
-  const [gameState, setGameState] = useState(GAME_STATES.RUNNING)
+  const [gameState, setGameState] = useState(GAME_STATES.READY)
   const [scoring, updateScoring] = useState({correct: 0, incorrect: 0})
   if(gameState === GAME_STATES.RUNNING){
     return <Game
@@ -22,7 +22,21 @@ function App() {
   }
   if(gameState === GAME_STATES.DONE){
     return (
-      <div>done</div>
+      <Segment style={{minHeight: '100vh', borderRadius: '0'}} inverted>
+        <Container text textAlign='center'>
+          <Segment attached='top' placeholder style={{backgroundColor: 'blue', minHeight: '25vw', color: 'white'}}>
+             test
+          </Segment>
+          <Segment attached>
+             <Input fluid size='massive' type='text' />
+          </Segment>
+          <Button size='huge' color='blue' attached='bottom' style={{maxWidth: '100%'}}>Guess</Button>
+
+          <Segment>
+             <Progress />
+          </Segment>
+        </Container>
+      </Segment>
     )
   }
   return (
