@@ -20,33 +20,32 @@ export default ({onSubmit, color, onAnswer}) => {
     const bgColor = !isDark ? 'white' : 'black';
 
     return (
-          <Form onSubmit={submitAnswer}>
-             <Segment style={{paddingTop: '2rem'}}>
-                <Label style={{fontSize: '1rem'}} attached='top left' >background-color:</Label>
-                <Input
-                   fluid
-                   type='text'
-                   autoFocus
-                   value={guess}
-                   onChange={(e) => setGuess(e.target.value)}
-                   labelPosition='left'
-                   actionPosition='right'
-                   style={{
-                     fontSize: '2.5rem',
-                     color: fgColor,
-                     borderColor: fgColor,
-                   }}>
-                     <Label style={{fontSize: '2.5rem', backgroundColor: color.hex, color: fgColor}}>?</Label>
-                     <input />
-                  <Button
-                    style={{backgroundColor: color.hex, color: fgColor}}
-                    size='massive'
-                     type='submit'
-                  >Guess</Button>
-                  </Input>
-                  <br />
-              </Segment>
-          </Form>
+      <Form onSubmit={submitAnswer}>
+         <Segment>
+            <Label style={{fontSize: '1rem'}} attached='top left' >background-color:</Label>
+            <Input
+               fluid
+               type='text'
+               autoFocus
+               value={guess}
+               onChange={(e) => setGuess(e.target.value)}
+               labelPosition='left'
+               actionPosition='right'
+               style={{
+                 fontSize: '2.5rem',
+                 color: fgColor,
+                 borderColor: fgColor,
+               }}>
+                 <input />
+              </Input>
+              <Button
+                fluid
+                size='massive'
+                style={{backgroundColor: color.hex, color: fgColor}}
+                 type='submit'
+              >Guess</Button>
+          </Segment>
+      </Form>
     );
   }
 }

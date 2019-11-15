@@ -1,4 +1,4 @@
-export default [
+const x11 = [
   {name: 'aliceblue',            hex: '#F0F8FF', rgb: [240, 248, 255],},
   {name: 'antiquewhite',         hex: '#FAEBD7', rgb: [250, 235, 215],},
   {name: 'aqua',                 hex: '#00FFFF', rgb: [0, 255, 255],},
@@ -148,3 +148,25 @@ export default [
   {name: 'yellow',               hex: '#FFFF00', rgb: [255, 255, 0],},
   {name: 'yellowgreen',          hex: '#9ACD32', rgb: [154, 205, 50],},
 ]
+
+export const html4 = x11.filter((c) =>
+  [
+    'white',
+    'silver',
+    'gray',
+    'black',
+    'red',
+    'maroon',
+    'yellow',
+    'olive',
+    'lime',
+    'green',
+    'aqua',
+    'teal',
+    'blue',
+    'navy',
+    'fuchsia',
+    'purple',
+  ].includes(c.name))
+
+export default x11;

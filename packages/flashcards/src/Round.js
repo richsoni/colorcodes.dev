@@ -37,9 +37,8 @@ const RoundContainer = ({children}) => {
 
   return (
     <Segment
-      placeholder
-      vertical
-      style={{ background: color.hex, minHeight: '100vh', padding: '1em 0em' }}
+      inverted
+      style={{ background: color.hex, minHeight: '100vh', padding: '3em 0em' }}
     >
     <Container textAlign='center' text>
       {children}

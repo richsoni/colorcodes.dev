@@ -1,5 +1,6 @@
 import React from 'react';
 import { Icon, Container, Button, Header, Segment } from 'semantic-ui-react'
+import {LogoSegment} from './Logo';
 
 export default ({onStartClick = () => {}}) => {
   return (
@@ -10,22 +11,16 @@ export default ({onStartClick = () => {}}) => {
       inverted
       style={{fontSize: '2rem', minHeight: '100vh' }}
     >
-        <Header
-          as='h1'
-          size='huge'
-          inverted
-          icon
-        >
-           <Icon name='paint brush' />
-           CSS Color Quiz
-          <Header.Subheader>
-            Guess the background by CSS Color name
-          </Header.Subheader>
-        </Header>
-        <Button onClick={onStartClick} primary size='huge'>
-          Get Started
-          <Icon name='right arrow' />
-        </Button>
+      <Container text>
+        <LogoSegment />
+        <Segment>
+          <Header as='h1' size='big'>Test Your Knowledge</Header>
+          <Button onClick={onStartClick} primary size='huge'>
+            Start
+            <Icon name='right arrow' />
+          </Button>
+        </Segment>
+      </Container>
     </Segment>
   );
 };

@@ -3,6 +3,7 @@ import './App.css';
 import x11 from '@colorcodes/x11';
 import Game from './Game';
 import GameSplash from './GameSplash';
+import {Sidebar, Menu, Progress, Statistic, Icon, Label, Input, Container, Segment, Header, Button, Form} from 'semantic-ui-react';
 
 const GAME_STATES = {
   READY: 'READY',
@@ -20,7 +21,9 @@ function App() {
     />
   }
   if(gameState === GAME_STATES.DONE){
-    return <div>DONE</div>
+    return (
+      <div>done</div>
+    )
   }
   return (
     <GameSplash onStartClick={() => setGameState(GAME_STATES.RUNNING) } />

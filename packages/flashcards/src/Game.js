@@ -4,10 +4,21 @@ import {shuffle} from 'lodash';
 import x11 from '@colorcodes/x11';
 import {sample} from 'lodash';
 import Color from 'color';
-import {Progress, Statistic, Icon, Label, Input, Container, Segment, Header, Button, Form} from 'semantic-ui-react';
+import {Menu, Progress, Statistic, Icon, Label, Input, Container, Segment, Header, Button, Form} from 'semantic-ui-react';
 import Question from './Question';
 import Round from './Round';
+import {LogoSegment} from './Logo';
 
+const Results = ({children}) => {
+  if(React.Children.count(children)){
+    return <Segment>
+      <Header as='h1'>Results</Header>
+      {children}
+    </Segment>
+  } else {
+    return <div />
+  }
+}
 export default ({inputColors, onDone}) => {
   const [rounds, setRounds] = useState(shuffle(inputColors))
   const [roundIndex, setRoundIndex] = useState(0)
@@ -29,9 +40,10 @@ export default ({inputColors, onDone}) => {
   const fgColor = Color(color.hex).isDark() ? 'white' : 'black';
   return (
     <Round color={color} onDone={onRoundDone}>
+      <Menu>
+      </Menu>
       <Round.Container>
-        <Header as='h1' style={{color: fgColor}}>CSS Color Quiz</Header>
-        <Round.Question />
+        <LogoSegment />
         <Segment>
            <Progress size='medium' value={roundIndex} total={rounds.length} progress='ratio' />
            <Statistic color='green'>
@@ -42,8 +54,11 @@ export default ({inputColors, onDone}) => {
               <Statistic.Value>{incorrect}</Statistic.Value>
               <Statistic.Label>incorrect</Statistic.Label>
            </Statistic>
-          {results.reverse().map((x, i) => (<Round.Result {...x} key={i} />))}
         </Segment>
+        <Round.Question />
+        <Results>
+          {results.reverse().map((x, i) => (<Round.Result {...x} key={i} />))}
+        </Results>
       </Round.Container>
     </Round>
   );
