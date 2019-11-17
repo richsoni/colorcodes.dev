@@ -61,7 +61,7 @@ export default ({inputColors, onDone}) => {
            <Statistic.Value>{incorrect}</Statistic.Value>
            <Statistic.Label>incorrect</Statistic.Label>
         </Statistic>
-        {results.reverse().map((x, i) => (<Round.Result {...x} key={i} />))}
+        {[...results].reverse().map((x, i) => (<Round.Result {...x} key={x.color} />))}
     </Segment>
       </Round.Container>
     </Round>
