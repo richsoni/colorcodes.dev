@@ -5,19 +5,34 @@
   "dependencies": {
     "@colorcodes/x11": "0.1.0",
     "color": "^3.1.2",
+    "eslint": "^6.6.0",
+    "husky": "^3.1.0",
+    "lint-staged": "^9.4.3",
     "lodash": "^4.17.15",
+    "prettier": "^1.19.1",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-scripts": "3.2.0",
     "semantic-ui-react": "^0.88.1"
   },
   "scripts": {
+    "format": "prettier --write \"**/*.+(js|jsx|json|css|md)\"",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+
   },
-  "eslintConfig": {
+  "hooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+ "eslintConfig": {
     "extends": "react-app"
   },
   "browserslist": {

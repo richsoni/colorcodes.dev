@@ -2,7 +2,7 @@
 
 1. The `Game` is single `player`
 1. The `Game` accepts a list of `inputColors`
-1. The `Game` has three states:  `begin`, 'active', and 'complete'
+1. The `Game` has three states: `begin`, 'active', and 'complete'
 1. The `Game` begins in the `begin` state
 1. The `Game` has `scoring`
 
@@ -21,6 +21,7 @@
 1. After the last round The `Game` transitions to the 'complete' state
 
 ### The Round
+
 1. The `Round` accepts a single `unnamedColor`
 1. The `Round` has two states: 'active', and 'complete'
 1. The `Round` begins in the `active` state
@@ -33,6 +34,7 @@
 1. After the `complete` state the `Round` is over
 
 ## The complete State
+
 1. The `complete` state displays final `scoring`
 1. The `player` can `reset` the `Game` from the `complete` state
 
