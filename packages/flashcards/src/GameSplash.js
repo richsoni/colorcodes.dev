@@ -20,15 +20,6 @@ const GameSplash = ({ children, onStartGame = () => {} }) => {
     >
       <Container text>
         <LogoSegment />
-        <Segment>
-          <Header as="h1" size="large">
-            Test Your Knowledge
-          </Header>
-          <Button onClick={onStartGame} primary size="huge">
-            Start
-            <Icon name="right arrow" />
-          </Button>
-        </Segment>
         <Card.Group>{children}</Card.Group>
       </Container>
     </Segment>
