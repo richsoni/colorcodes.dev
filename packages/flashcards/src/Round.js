@@ -18,7 +18,7 @@ const Round = ({color, children, onDone}) => {
 
   const onAnswer = (answer) => {
     onDone({
-      isCorrect: answer === color.name,
+      isCorrect: answer.replace('grey', 'gray') === color.name,
       state: {fgColor, color, answer},
     });
   }

@@ -19,8 +19,9 @@ const Results = ({children}) => {
     return <div />
   }
 }
-export default ({inputColors, onDone}) => {
-  const [rounds, setRounds] = useState(shuffle(inputColors))
+export default ({questionSet, onDone}) => {
+  const {items, header, description } = questionSet;
+  const [rounds, setRounds] = useState(shuffle(items))
   const [roundIndex, setRoundIndex] = useState(0)
   const [results, setResults] = useState([])
 
@@ -61,7 +62,7 @@ export default ({inputColors, onDone}) => {
            <Statistic.Value>{incorrect}</Statistic.Value>
            <Statistic.Label>incorrect</Statistic.Label>
         </Statistic>
-        {[...results].reverse().map((x, i) => (<Round.Result {...x} key={x.color} />))}
+        {[...results].reverse().map((x, i) => ( <Round.Result {...x} key={x.state.color.name} /> ))}
     </Segment>
       </Round.Container>
     </Round>

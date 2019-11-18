@@ -11,36 +11,67 @@ const GAME_STATES = {
   DONE: 'DONE',
 }
 
+const questionSets = {
+  x11: {
+    header: 'X11',
+    description: 'The full set of X11 colors',
+    items: x11,
+  },
+
+  basic: {
+    header: 'X11 - Basic Colors',
+    description: 'Listed on https://www.w3.org/TR/css-color-3/ as the basic set of colors',
+    items: x11.filter((c) => [
+      'black',
+      'silver',
+      'gray',
+      'white',
+      'maroon',
+      'red',
+      'purple',
+      'fuchsia',
+      'green',
+      'lime',
+      'olive',
+      'yellow',
+      'navy',
+      'blue',
+      'teal',
+      'aqua',
+    ].includes(c.name)),
+  }
+}
+
 function App() {
-  const [gameState, setGameState] = useState(GAME_STATES.RUNNING)
+  const [gameState, setGameState] = useState(GAME_STATES.READY)
   const [scoring, updateScoring] = useState({correct: 0, incorrect: 0})
+  const [questionSet, setQuestionSet] = useState(null)
   if(gameState === GAME_STATES.RUNNING){
     return <Game
-      inputColors={x11}
+      questionSet={questionSet}
       onDone={() => setGameState(GAME_STATES.DONE)}
     />
   }
   if(gameState === GAME_STATES.DONE){
     return (
       <Segment style={{minHeight: '100vh', borderRadius: '0'}} inverted>
-        <Container text textAlign='center'>
-          <Segment attached='top' placeholder style={{backgroundColor: 'blue', minHeight: '25vw', color: 'white'}}>
-             test
-          </Segment>
-          <Segment attached>
-             <Input fluid size='massive' type='text' />
-          </Segment>
-          <Button size='huge' color='blue' attached='bottom' style={{maxWidth: '100%'}}>Guess</Button>
-
-          <Segment>
-             <Progress />
-          </Segment>
-        </Container>
+        done
       </Segment>
     )
   }
+  //otherwise its READY (for now)
   return (
-    <GameSplash onStartClick={() => setGameState(GAME_STATES.RUNNING) } />
+    <GameSplash>
+      {
+        Object.keys(questionSets).map((key) =>  {
+          const qs = questionSets[key];
+          return <GameSplash.QuestionSet {...qs} key={key} onClick={() => {
+            setQuestionSet(qs)
+            setGameState(GAME_STATES.RUNNING)
+          }} />
+        })
+      }
+    </GameSplash>
   );
 }
 
