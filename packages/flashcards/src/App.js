@@ -3,6 +3,7 @@ import "./App.css";
 import x11 from "@colorcodes/x11";
 import Game from "./Game";
 import GameSplash from "./GameSplash";
+import Round from './Round';
 import {
   Sidebar,
   Menu,
@@ -17,12 +18,6 @@ import {
   Button,
   Form
 } from "semantic-ui-react";
-
-const GAME_STATES = {
-  READY: "READY",
-  RUNNING: "RUNNING",
-  DONE: "DONE"
-};
 
 const questionSets = {
   x11: {
@@ -58,37 +53,41 @@ const questionSets = {
   }
 };
 
+// ACTIVE_GAME
+
+const newGame = () => {
+  return {
+  
+  }
+}
 function App() {
-  const [gameState, setGameState] = useState(GAME_STATES.READY);
   const [scoring, updateScoring] = useState({ correct: 0, incorrect: 0 });
   const [questionSet, setQuestionSet] = useState(null);
-  if (gameState === GAME_STATES.RUNNING) {
+  const [game, setGame] = useState(null)
+
+  if(game) {
     return (
       <Game
-        questionSet={questionSet}
-        onDone={() => setGameState(GAME_STATES.DONE)}
-      />
+        questionSet={game.questionSet}
+        onDone={() => setGame(null)}
+      >
+        <Game.Round>
+          <Game.Statistic />
+        </Game.Round>
+      </Game>
     );
   }
-  if (gameState === GAME_STATES.DONE) {
-    return (
-      <Segment style={{ minHeight: "100vh", borderRadius: "0" }} inverted>
-        done
-      </Segment>
-    );
-  }
-  //otherwise its READY (for now)
+
   return (
     <GameSplash>
       {Object.keys(questionSets).map(key => {
-        const qs = questionSets[key];
+        const questionSet = questionSets[key];
         return (
           <GameSplash.QuestionSet
-            {...qs}
+            {...questionSet}
             key={key}
             onClick={() => {
-              setQuestionSet(qs);
-              setGameState(GAME_STATES.RUNNING);
+              setGame({questionSet});
             }}
           />
         );
