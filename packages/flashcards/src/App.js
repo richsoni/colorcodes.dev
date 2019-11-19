@@ -25,20 +25,14 @@ import {
 const questionSets = {
   x11: {
     header: "Full CSS Colorset",
-    description: "Based on the X11 Colors https://www.youtube.com/watch?v=d-OrHsG-03I",
+    description: "Based on the X11 Colors https://www.w3.org/TR/css-color-3/",
     items: x11
   },
 
-  blackwhite: {
-    header: "Black & White",
-    description:
-      "Listed on https://www.w3.org/TR/css-color-3/ as the basic set of colors",
-    items: x11.filter(c =>
-      [
-        "black",
-        "white",
-      ].includes(c.name)
-    )
+  blues: {
+    header: "Blues",
+    description: "Based on the X11 Colors https://www.w3.org/TR/css-color-3/",
+    items: x11.filter((c) => c.name.match(/blue|aqua|azure|cyan|slate|turquoise|indigo|navy/))
   },
 
   basic: {
@@ -65,7 +59,20 @@ const questionSets = {
         "aqua"
       ].includes(c.name)
     )
-  }
+  },
+
+  blackwhite: {
+    header: "Black & White",
+    description:
+      "Listed on https://www.w3.org/TR/css-color-3/ as the basic set of colors",
+    items: x11.filter(c =>
+      [
+        "black",
+        "white",
+      ].includes(c.name)
+    )
+  },
+
 };
 
 function App() {
@@ -98,20 +105,22 @@ function App() {
         {summary && <Stats results={summary.results} />}
         {summary && <Header as='h1' style={{color: 'white', fontSize: '3em'}}>Play Again</Header>}
         <LogoSegment />
-        <Card.Group>
-          {Object.keys(questionSets).map(key => {
-            const questionSet = questionSets[key];
-            return (
-              <GameSplash.QuestionSet
-                {...questionSet}
-                key={key}
-                onClick={() => {
-                  setGame({questionSet});
-                }}
-              />
-            );
-          })}
-        </Card.Group>
+        <Container text padded>
+          <Card.Group centered>
+            {Object.keys(questionSets).map(key => {
+              const questionSet = questionSets[key];
+              return (
+                <GameSplash.QuestionSet
+                  {...questionSet}
+                  key={key}
+                  onClick={() => {
+                    setGame({questionSet});
+                  }}
+                />
+              );
+            })}
+          </Card.Group>
+        </Container>
       </GameSplash>
     </Container>
   );
