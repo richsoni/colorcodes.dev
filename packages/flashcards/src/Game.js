@@ -8,7 +8,6 @@ import {
   Message,
   Menu,
   Progress,
-  Statistic,
   Icon,
   Label,
   Input,
@@ -23,19 +22,6 @@ import Round from "./Round";
 const GameContext = React.createContext({
 });
 
-const Results = ({ children }) => {
-  if (React.Children.count(children)) {
-    return (
-      <Segment>
-        <Header as="h1">Results</Header>
-        {children}
-      </Segment>
-    );
-  } else {
-    return <div />;
-  }
-};
-
 const Game = ({questionSet, onDone, children}) => {
   const { items, header, description } = questionSet;
   const [rounds, setRounds] = useState(shuffle(items));
@@ -43,21 +29,22 @@ const Game = ({questionSet, onDone, children}) => {
   const [results, setResults] = useState([]);
 
   const onRoundDone = result => {
-    setResults(results.concat([result]));
+    const newResults = results.concat([result]);
+    setResults(newResults)
     if (roundIndex <= rounds.length - 2) {
       setRoundIndex(roundIndex + 1);
     } else {
-      onDone({results});
+      setRoundIndex(roundIndex + 1);
+      onDone({results: newResults});
     }
   };
-
 
   const color = rounds[roundIndex];
   const isDark = Color(color.hex).isDark();
   const fgColor = isDark ? "white" : "black";
 
   const state = { fgColor, isDark, color, onRoundDone, results, rounds, roundIndex }
-  return <GameContext.Provider value={state}>{children}</GameContext.Provider>
+  return <GameContext.Provider value={state}>{children(state)}</GameContext.Provider>
 };
 
 const GameRound = ({children}) => {
@@ -80,28 +67,6 @@ const GameRound = ({children}) => {
   );
 }
 
-const GameStatistic = () => {
-  const {results} = useContext(GameContext);
-  const correct = results.filter(item => item.isCorrect).length;
-  const incorrect = results.filter(item => !item.isCorrect).length;
-
-  return(
-    <Segment>
-      <Statistic horizontal size="mini" color="green">
-        <Statistic.Value>{correct}</Statistic.Value>
-        <Statistic.Label>correct</Statistic.Label>
-      </Statistic>
-      <Statistic horizontal size="mini" color="red">
-        <Statistic.Value>{incorrect}</Statistic.Value>
-        <Statistic.Label>incorrect</Statistic.Label>
-      </Statistic>
-      {[...results].reverse().map((x, i) => (
-        <Round.Result {...x} key={x.state.color.name} />
-      ))}
-    </Segment>
-  )
-}
-
 const GameProgress = () => {
   const {roundIndex, rounds} = useContext(GameContext)
   return (
@@ -116,5 +81,4 @@ const GameProgress = () => {
 
 export default Game;
 Game.Progress = GameProgress;
-Game.Statistic = GameStatistic;
 Game.Round = GameRound;

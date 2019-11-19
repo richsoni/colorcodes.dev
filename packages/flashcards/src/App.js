@@ -4,7 +4,10 @@ import x11 from "@colorcodes/x11";
 import Game from "./Game";
 import GameSplash from "./GameSplash";
 import Round from './Round';
+import Stats from './Stats';
+import {LogoSegment} from './Logo';
 import {
+  Card,
   Sidebar,
   Menu,
   Progress,
@@ -21,13 +24,25 @@ import {
 
 const questionSets = {
   x11: {
-    header: "X11",
-    description: "The full set of X11 colors",
+    header: "Full CSS Colorset",
+    description: "Based on the X11 Colors https://www.youtube.com/watch?v=d-OrHsG-03I",
     items: x11
   },
 
+  blackwhite: {
+    header: "Black & White",
+    description:
+      "Listed on https://www.w3.org/TR/css-color-3/ as the basic set of colors",
+    items: x11.filter(c =>
+      [
+        "black",
+        "white",
+      ].includes(c.name)
+    )
+  },
+
   basic: {
-    header: "X11 - Basic Colors",
+    header: "Basic CSS Colors",
     description:
       "Listed on https://www.w3.org/TR/css-color-3/ as the basic set of colors",
     items: x11.filter(c =>
@@ -67,29 +82,38 @@ function App() {
           setGame(null)
           setSummary({results})
         }}
-      >
-        <Game.Round>
-          <Game.Statistic />
-        </Game.Round>
+      >{(gamestate) => (
+          <Game.Round>
+            <Stats results={gamestate.results} />
+          </Game.Round>
+        )}
       </Game>
     );
   }
 
   return (
-    <GameSplash>
-      {Object.keys(questionSets).map(key => {
-        const questionSet = questionSets[key];
-        return (
-          <GameSplash.QuestionSet
-            {...questionSet}
-            key={key}
-            onClick={() => {
-              setGame({questionSet});
-            }}
-          />
-        );
-      })}
-    </GameSplash>
+    <Container fluid>
+      <GameSplash>
+        {summary && <Header as='h1' style={{color: 'white', fontSize: '3em'}}>Game Summary</Header>}
+        {summary && <Stats results={summary.results} />}
+        {summary && <Header as='h1' style={{color: 'white', fontSize: '3em'}}>Play Again</Header>}
+        <LogoSegment />
+        <Card.Group>
+          {Object.keys(questionSets).map(key => {
+            const questionSet = questionSets[key];
+            return (
+              <GameSplash.QuestionSet
+                {...questionSet}
+                key={key}
+                onClick={() => {
+                  setGame({questionSet});
+                }}
+              />
+            );
+          })}
+        </Card.Group>
+      </GameSplash>
+    </Container>
   );
 }
 

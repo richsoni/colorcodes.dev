@@ -7,7 +7,6 @@ import {
   Header,
   Segment
 } from "semantic-ui-react";
-import { LogoSegment } from "./Logo";
 
 const GameSplash = ({ children, onStartGame = () => {} }) => {
   return (
@@ -19,8 +18,7 @@ const GameSplash = ({ children, onStartGame = () => {} }) => {
       style={{ fontSize: "2rem", minHeight: "100vh" }}
     >
       <Container text>
-        <LogoSegment />
-        <Card.Group>{children}</Card.Group>
+        {children}
       </Container>
     </Segment>
   );
