@@ -53,23 +53,20 @@ const questionSets = {
   }
 };
 
-// ACTIVE_GAME
-
-const newGame = () => {
-  return {
-  
-  }
-}
 function App() {
   const [scoring, updateScoring] = useState({ correct: 0, incorrect: 0 });
   const [questionSet, setQuestionSet] = useState(null);
   const [game, setGame] = useState(null)
+  const [summary, setSummary] = useState(null)
 
   if(game) {
     return (
       <Game
         questionSet={game.questionSet}
-        onDone={() => setGame(null)}
+        onDone={({results}) => {
+          setGame(null)
+          setSummary({results})
+        }}
       >
         <Game.Round>
           <Game.Statistic />

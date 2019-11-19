@@ -44,10 +44,10 @@ const Game = ({questionSet, onDone, children}) => {
 
   const onRoundDone = result => {
     setResults(results.concat([result]));
-    if (roundIndex < rounds.length) {
+    if (roundIndex <= rounds.length - 2) {
       setRoundIndex(roundIndex + 1);
     } else {
-      onDone();
+      onDone({results});
     }
   };
 
