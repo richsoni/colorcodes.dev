@@ -65,9 +65,11 @@ Round.Result = ({ isCorrect, state }) => {
   return (
     <Segment style={{
         backgroundColor: color.hex,
-        color: fgColor
+        color: fgColor,
+        minHeight: '5em',
       }}
       raised
+      placeholder
     >
       <Label color={isCorrect ? "green" : "red"} attached="top left">
         <Icon name={isCorrect ? "check" : "x"} />
