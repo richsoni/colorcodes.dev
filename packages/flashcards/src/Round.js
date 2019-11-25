@@ -17,6 +17,15 @@ import {
 import Answer from "./Answer";
 import { LogoSegment } from "./Logo";
 
+const isCorrect = (answer, color) => {
+  let sanitized = answer
+    .replace("grey", "gray")
+    .replace("magenta", "fuchsia")
+    .replace("aqua", "cyan")
+  debugger
+  return color.name === sanitized;
+}
+
 const RoundContext = React.createContext({
   color: Color("white"),
   fgColor: "black",
@@ -28,7 +37,7 @@ const Round = ({ color, children, onDone }) => {
 
   const onAnswer = answer => {
     onDone({
-      isCorrect: answer.replace("grey", "gray") === color.name,
+      isCorrect,
       state: { fgColor, color, answer }
     });
   };

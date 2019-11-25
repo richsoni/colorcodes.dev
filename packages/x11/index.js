@@ -1,7 +1,6 @@
 const x11 = [
   {name: 'aliceblue',            hex: '#F0F8FF', rgb: [240, 248, 255],},
   {name: 'antiquewhite',         hex: '#FAEBD7', rgb: [250, 235, 215],},
-  {name: 'aqua',                 hex: '#00FFFF', rgb: [0, 255, 255],},
   {name: 'aquamarine',           hex: '#7FFFD4', rgb: [127, 255, 212],},
   {name: 'azure',                hex: '#F0FFFF', rgb: [240, 255, 255],},
   {name: 'beige',                hex: '#F5F5DC', rgb: [245, 245, 220],},
@@ -44,7 +43,7 @@ const x11 = [
   {name: 'firebrick',            hex: '#B22222', rgb: [178, 34, 34],},
   {name: 'floralwhite',          hex: '#FFFAF0', rgb: [255, 250, 240],},
   {name: 'forestgreen',          hex: '#228B22', rgb: [34, 139, 34],},
-  {name: 'fuchsia',              hex: '#FF00FF', rgb: [255, 0, 255],},
+  {name: 'magenta',              hex: '#FF00FF', rgb: [255, 0, 255],},
   {name: 'gainsboro',            hex: '#DCDCDC', rgb: [220, 220, 220],},
   {name: 'ghostwhite',           hex: '#F8F8FF', rgb: [248, 248, 255],},
   {name: 'gold',                 hex: '#FFD700', rgb: [255, 215, 0],},
@@ -78,7 +77,6 @@ const x11 = [
   {name: 'lime',                 hex: '#00FF00', rgb: [0, 255, 0],},
   {name: 'limegreen',            hex: '#32CD32', rgb: [50, 205, 50],},
   {name: 'linen',                hex: '#FAF0E6', rgb: [250, 240, 230],},
-  {name: 'magenta',              hex: '#FF00FF', rgb: [255, 0, 255],},
   {name: 'maroon',               hex: '#800000', rgb: [128, 0, 0],},
   {name: 'mediumaquamarine',     hex: '#66CDAA', rgb: [102, 205, 170],},
   {name: 'mediumblue',           hex: '#0000CD', rgb: [0, 0, 205],},
@@ -154,11 +152,11 @@ export const html4 = x11.filter((c) =>
     'olive',
     'lime',
     'green',
-    'aqua',
+    'cyan',
     'teal',
     'blue',
     'navy',
-    'fuchsia',
+    'magenta',
     'purple',
   ].includes(c.name))
 
