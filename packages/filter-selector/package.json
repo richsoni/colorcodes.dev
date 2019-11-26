@@ -1,5 +1,5 @@
 {
-  "name": "@colorcodes/flashcards",
+  "name": "filter-selector",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -16,23 +16,12 @@
     "semantic-ui-react": "^0.88.1"
   },
   "scripts": {
-    "format": "prettier --write \"**/*.+(js|jsx|json|css|md)\"",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-
   },
-  "hooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "prettier --write",
-      "git add"
-    ]
-  },
- "eslintConfig": {
+  "eslintConfig": {
     "extends": "react-app"
   },
   "browserslist": {

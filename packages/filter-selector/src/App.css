@@ -1,0 +1,8 @@
+.App {
+}
+
+.rgb-grid {
+  display: grid;
+  grid-template-rows: 3;
+  grid-template-columns: 3;
+}
