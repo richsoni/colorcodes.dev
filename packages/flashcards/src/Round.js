@@ -16,15 +16,11 @@ import {
 } from "semantic-ui-react";
 import Answer from "./Answer";
 import { LogoSegment } from "./Logo";
+import sanitizeColor from './sanitizeColor';
 
-const isCorrect = (answer, color) => {
-  let sanitized = answer
-    .replace("grey", "gray")
-    .replace("magenta", "fuchsia")
-    .replace("aqua", "cyan")
-  debugger
-  return color.name === sanitized;
-}
+const isCorrect = (answer, color) => (
+  sanitizeColor(answer) === color.name
+)
 
 const RoundContext = React.createContext({
   color: Color("white"),
@@ -37,7 +33,7 @@ const Round = ({ color, children, onDone }) => {
 
   const onAnswer = answer => {
     onDone({
-      isCorrect,
+      isCorrect: isCorrect(answer, color),
       state: { fgColor, color, answer }
     });
   };
