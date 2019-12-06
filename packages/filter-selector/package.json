@@ -1,5 +1,5 @@
 {
-  "name": "filter-selector",
+  "name": "@colorcodes/filter-selector",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
