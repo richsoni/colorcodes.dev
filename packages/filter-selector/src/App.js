@@ -10,7 +10,6 @@ import { HuePicker} from 'react-color';
 import { CustomPicker } from 'react-color';
 var { Alpha } = require('react-color/lib/components/common');
 
-
 const MyAlphaCard = CustomPicker((props) => {
   console.log(props)
   return <div style={{position: 'relative', width: '100%', height: '50px'}}>
@@ -18,39 +17,36 @@ const MyAlphaCard = CustomPicker((props) => {
   </div>
 })
 
+const FilterCheckbox = ({value, onChange}) => (
+  <Checkbox checked={value} onChange={(e, {checked}) => onChange(checked)} toggle label={value ? 'ON' : 'OFF'} />
+)
+
 const filterConfig = {
   grayscale: {
     title: "Grayscale Colors",
-    fn: (array) => array.filter((color) => new Set(color.rgb).size === 1)
+    filter: ({color}) => new Set(color.rgb).size === 1,
+    control: FilterCheckbox,
+    initialValue: false,
   },
 
   notgray: {
     title: "Not Grayscale",
-    fn: (array) => array
-      .filter((color) => (color) => new Set(color.rgb).size > 1)
+    filter: ({color}) => new Set(color.rgb).size > 1,
+    control: FilterCheckbox,
+    initialValue: false,
   },
 
-  hsl: {
-    title: "HSL Center",
-    fn: (props) => {
-      const {hue, color} = props;
-      return true
-      // if(hue < 0) return true
-      // if(c.name === 'black') return false;
-      // const color = Color(c.name)
-      // const distance = Math.abs(hue - color.hsl().color[0])
-      // return distance < 60;
-    }
+  hsl: { title: "HSL Center",
+    filter: ({color, value}) => {
+      if(value < 0) return true
+      if(color.name === 'black') return false;
+      const c = Color(color.name)
+      const distance = Math.abs(value - c.hsl().color[0])
+      return distance < 60;
+    },
+    control: ({value, onChange}) => (<HuePicker color={{h: 0, s: 0, l: 0}} onChangeComplete={(color) => onChange(color.hsl.h)} />),
+    initialValue: 0,
   },
-}
-
-const Filter = ({config, checked, onToggle}) => {
-  return (<Segment>
-    <Header as='h3'>
-      {config.title}&nbsp;&nbsp;
-      <Checkbox checked={checked} onChange={(e, {checked}) => onToggle(checked)} toggle label={checked ? 'ON' : 'OFF'} />
-    </Header>
-  </Segment>)
 }
 
 const rgbSum = (color) => {
@@ -172,14 +168,22 @@ function App() {
   const [hslFilter, setHslFilter] = useState({h: 0, s: 0, l: 0})
   const [filters, setFilters] = useState(Object
     .keys(filterConfig)
-    .reduce((keys, key) => ({...keys, [key]: false}), {})
+    .reduce((keys, key) => ({...keys, [key]: filterConfig[key].initialValue}), {})
   )
   const hue = hslFilter.h;
 
   const colors = Object
     .keys(filters)
     .filter((key) => filters[key]) //enabled filters
-    .reduce((colors, key) => (filterConfig[key].fn(colors)), x11)
+    .reduce((colors, key) => {
+      const filter = filterConfig[key].filter
+      return colors.filter((color) =>
+        filter({
+          color,
+          value: filters[key]
+        })
+      );
+    }, x11)
     .sort((a,b) => getSortValue(a) - getSortValue(b))
 
   return (<>
@@ -189,20 +193,25 @@ function App() {
     <Container>
        <Segment>
         <Header as='h1'>Filters</Header>
-        {Object
-          .keys(filterConfig)
-          .map((key) => <Filter
-            key={key}
-            checked={filters[key]}
-            config={filterConfig[key]}
-            onToggle={(value) => setFilters({...filters, [key]: value})}
-          />
-          )
-        }
-        <HuePicker hsl={{h: hue, s: 0, l: 0}} onChangeComplete={(color) => setHslFilter(color.hsl)} />
-        <Segment>
-          <Header as='h3'>Dominant Color &nbsp;&nbsp;<Checkbox checked={filters} onChange={() => setFilters({HSL: !filters.HSL})} toggle label={hue > -1 ? 'ON' : 'OFF'} /></Header>
-        </Segment>
+        <List>
+          {Object
+            .keys(filterConfig)
+            .map((key) => {
+              const config = filterConfig[key];
+              const Control = config.control;
+              console.log(config.title, filters[key])
+              return (
+                <List.Item key={key}>
+                  <List.Header>{config.title}</List.Header>
+                  <Control
+                    value={filters[key]}
+                    config={filterConfig[key]}
+                    onChange={(value) => setFilters({...filters, [key]: value})} />
+                </List.Item>
+              )
+            })
+          }
+          </List>
        </Segment>
        <Segment>
          <Header as='h1'>Colors</Header>
