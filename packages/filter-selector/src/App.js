@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import logo from './logo.svg';
 import {min, difference} from 'lodash';
 import './App.css';
-import { Checkbox, Select, Card, Item, Menu, Icon, Sidebar, Button, Label, List, Input, Header, Container, Segment, Form } from 'semantic-ui-react';
+import { Table, Checkbox, Select, Card, Item, Menu, Icon, Sidebar, Button, Label, List, Input, Header, Container, Segment, Form } from 'semantic-ui-react';
 import x11 from "@colorcodes/x11";
 import Color from "color";
 import Logo from './Logo';
@@ -21,6 +21,14 @@ const FilterCheckbox = ({value, onChange}) => (
   <Checkbox checked={value} onChange={(e, {checked}) => onChange(checked)} toggle label={value ? 'ON' : 'OFF'} />
 )
 
+const hsl = (color) => {
+  const [h,s,l] = Color(color).hsl().color
+  return {h,s,l}
+}
+
+const distance = (i, i2) => Math.abs(i - i2)
+const square = (i) => i*i
+
 const filterConfig = {
   grayscale: {
     title: "Grayscale Colors",
@@ -38,14 +46,23 @@ const filterConfig = {
 
   hsl: { title: "HSL Center",
     filter: ({color, value}) => {
-      if(value < 0) return true
-      if(color.name === 'black') return false;
-      const c = Color(color.name)
-      const distance = Math.abs(value - c.hsl().color[0])
-      return distance < 60;
+      const colorHSL = hsl(color.name)
+      const valueHSL = hsl(value)
+      const hDistance = distance(colorHSL.h, valueHSL.h);
+      const sDistance = distance(colorHSL.s, valueHSL.s);
+      const lDistance = distance(colorHSL.l, valueHSL.l);
+      const hThresh = square(Math.log(valueHSL.h + 1) + 1)
+      console.log(hThresh)
+      switch(value) {
+        default: return hDistance < hThresh && sDistance < 90 && lDistance < 50;
+      }
     },
-    control: ({value, onChange}) => (<HuePicker color={{h: 0, s: 0, l: 0}} onChangeComplete={(color) => onChange(color.hsl.h)} />),
-    initialValue: 0,
+    control: ({value, onChange}) => (<Button.Group>
+        {['red','orange','yellow','green','blue','violet'].map((color) => (
+          <Button color={color} onClick={() => onChange(color)}>{color}</Button>
+        ))}
+      </Button.Group>),
+    initialValue: 'red',
   },
 }
 
@@ -57,29 +74,23 @@ const fgColor = (color) => {
  return Color(color).isDark() ? "white" : "black";
 }
 
-const hsl = (color) => {
-  const [h,s,l] = Color(color).hsl().color
-  return {h,s,l}
-}
-
-const ColoredCardContent = ({color}) => {
-  return (<Card.Content
-     textAlign="center"
-     style={{
-       background: color,
-       padding: "2em 0em",
-       color: fgColor(color),
-     }}
-  >{color}</Card.Content>)
-
-}
-
 const getSortValue = (c) => {
   // https://stackoverflow.com/questions/3014402/sorting-a-list-of-colors-in-one-dimension
-  const color = Color(c.name)
-  const hsl = color.hsl()
-  return hsl.color[2] * 5 + hsl.color[2] * 2 + hsl.color[0]
+  const {h,s,l} = hsl(c.name)
+  return l * 5 + s * 2 + h
 }
+
+const RangePosition = ({color, left}) => (
+  <div style={{
+    backgroundColor: color.name,
+    border: '1px solid darkgray',
+    top: '25%',
+    left: left,
+    width: '4px',
+    height: '1em',
+    position: 'absolute',
+  }} />
+)
 
 const HueStat = ({color}) => (
   <div style={{
@@ -93,18 +104,9 @@ const HueStat = ({color}) => (
     <div style={{
       width: '100%',
       height: '.5em',
-      background: `linear-gradient(to right, rgba(0,0,0, 0) 0%,
-        rgba(0,0,0, 1) 100%)`,
+      background: `linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%)`,
     }}>
-    <div style={{
-      borderRadius: '1em',
-      backgroundColor: color.name,
-      top: '25%',
-      left: hsl(color.name).s,
-      width: '1em',
-      height: '1em',
-      position: 'absolute',
-    }} />
+    <RangePosition left={`${(hsl(color.name).h/360)*100}%`} color={color} />
   </div>
  </div>
 )
@@ -124,15 +126,7 @@ const LightStat = ({color}) => (
       background: `linear-gradient(to right, rgba(0,0,0, 1) 0%,
         rgba(0,0,0,0) 100%)`,
     }}>
-    <div style={{
-      borderRadius: '1em',
-      backgroundColor: color.name,
-      top: '25%',
-      left: hsl(color.name).l,
-      width: '1em',
-      height: '1em',
-      position: 'absolute',
-    }} />
+    <RangePosition left={`${hsl(color.name).l}%`} color={color} />
   </div>
  </div>
 )
@@ -149,17 +143,10 @@ const SatStat = ({color}) => (
     <div style={{
       width: '100%',
       height: '.5em',
-      background: `linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%)`,
+      background: `linear-gradient(to right, rgba(0,0,0, 0) 0%,
+        rgba(0,0,0, 1) 100%)`,
     }}>
-    <div style={{
-      borderRadius: '1em',
-      backgroundColor: color.name,
-      top: '25%',
-      left: hsl(color.name).h,
-      width: '1em',
-      height: '1em',
-      position: 'absolute',
-    }} />
+    <RangePosition left={`${hsl(color.name).s}%`} color={color} />
   </div>
  </div>
 )
@@ -214,24 +201,43 @@ function App() {
           </List>
        </Segment>
        <Segment>
-         <Header as='h1'>Colors</Header>
+         <Header as='h1'>Colors {Math.max(...x11.map((x) => hsl(x.name).h))}</Header>
          <Header as='h4'>{colors.length} of {x11.length} shown</Header>
-         <Card.Group >
-           {colors.map((color) => (<Card
-               key={color.name}
-             >
-              <ColoredCardContent color={color.name} />
-              <Card.Content extra>
-                <Label color='red'>r: {color.rgb[0]}</Label>
-                <Label color='green'>g: {color.rgb[1]}</Label>
-                <Label color='blue'>b: {color.rgb[2]}</Label>
-                <HueStat color={color} />
-                <SatStat color={color} />
-                <LightStat color={color} />
-              </Card.Content>
-             </Card>
-           ))}
-        </Card.Group>
+         <Table>
+           <Table.Header>
+             <Table.Row>
+               <Table.HeaderCell>Color</Table.HeaderCell>
+               <Table.HeaderCell style={{width: '6em'}}>Red</Table.HeaderCell>
+               <Table.HeaderCell style={{width: '6em'}}>Green</Table.HeaderCell>
+               <Table.HeaderCell style={{width: '6em'}}>Blue</Table.HeaderCell>
+               <Table.HeaderCell>Hue</Table.HeaderCell>
+               <Table.HeaderCell>Sat</Table.HeaderCell>
+               <Table.HeaderCell>Lum</Table.HeaderCell>
+             </Table.Row>
+           </Table.Header>
+           <Table.Body>
+             {colors.map((color) => (<Table.Row
+                 key={color.name}
+               >
+                <Table.Cell
+                   textAlign="center"
+                   verticalAlign="middle"
+                   style={{
+                     background: color.name,
+                     color: fgColor(color.name),
+                     textAlign: 'center',
+                   }}
+                >{color.name}</Table.Cell>
+                <Table.Cell><Label color='red'>r: {color.rgb[0]}</Label></Table.Cell>
+                <Table.Cell><Label color='green'>g: {color.rgb[1]}</Label></Table.Cell>
+                <Table.Cell><Label color='blue'>b: {color.rgb[2]}</Label></Table.Cell>
+                <Table.Cell><HueStat color={color} /></Table.Cell>
+                <Table.Cell><SatStat color={color} /></Table.Cell>
+                <Table.Cell> <LightStat color={color} /></Table.Cell>
+               </Table.Row>
+             ))}
+          </Table.Body>
+       </Table>
       </Segment>
     </Container>
     </>
