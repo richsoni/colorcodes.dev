@@ -135,7 +135,7 @@ function App() {
     </Menu>
     <Container>
        <Segment>
-        <Header as='h1'>Filters</Header>
+        <Header as='h1'>Filters {Math.max(...x11.map((x) => Math.ceil(hsl(x.name).h)))}</Header>
         <List>
           {Object
             .keys(filterConfig)

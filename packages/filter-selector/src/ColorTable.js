@@ -45,6 +45,7 @@ const ColorTable = ({colors}) => {
          {name: 'Lum', sort: ({name}) => hsl(name).l},
        ].map((cell) => (
          <Table.HeaderCell
+           key={cell.name}
            sorted={sortState.column === cell.name ? sortState.direction : null}
            style={{...cell.style}}
            onClick={() => {
@@ -118,7 +119,7 @@ ColorTable.Row = ({
    <Table.Cell>
     <Range
       background='linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%)'
-      left={(hsl(name).h / 360) * 100}
+      left={`${Math.floor((hsl(name).h / 360) * 100)}%`}
       colorName={name}
     />
    </Table.Cell>
