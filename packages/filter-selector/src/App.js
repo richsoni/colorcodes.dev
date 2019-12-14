@@ -22,7 +22,7 @@ const square = (i) => i*i
 
 const filterConfig = {
   grayscale: {
-    title: "Grayscale Colors",
+    title: "Color is Grayscale",
     filter: ({color}) => new Set(color.rgb).size === 1,
     control: FilterCheckbox,
     initialValue: false,
@@ -43,7 +43,7 @@ const filterConfig = {
     },
 
     control: ({value, onChange}) => {
-      const MAX = 351;
+      const MAX = 352;
       return ( <Segment
         style={{
           background: 'linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%)',
@@ -75,7 +75,7 @@ const filterConfig = {
             {children}
           </div>
         )}
-        renderThumb={({ props }) => (
+        renderThumb={({ props, index}) => (
           <div
             {...props}
             style={{
@@ -84,12 +84,16 @@ const filterConfig = {
               width: '1em',
               backgroundColor: 'black'
             }}
-          />
+          >
+            <div style={{position: 'relative', top: '-1.5em', right: '.5em',}}>
+               <Label circular color='black'>{value[index]}</Label>
+            </div>
+          </div>
         )}
       />
     </Segment>)},
 
-    initialValue: [50,75],
+    initialValue: [0,352],
   },
 }
 
@@ -135,7 +139,7 @@ function App() {
     </Menu>
     <Container>
        <Segment>
-        <Header as='h1'>Filters {Math.max(...x11.map((x) => Math.ceil(hsl(x.name).h)))}</Header>
+        <Header as='h1'>Filters</Header>
         <List>
           {Object
             .keys(filterConfig)

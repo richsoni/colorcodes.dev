@@ -160,4 +160,6 @@ export const html4 = x11.filter((c) =>
     'purple',
   ].includes(c.name))
 
+export const notGray = ({color}) => new Set(color.rgb).size > 1
+
 export default x11;

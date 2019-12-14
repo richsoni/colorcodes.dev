@@ -117,9 +117,10 @@ ColorTable.Row = ({
    <Table.Cell><Label color='green'>g: {rgb(name).g}</Label></Table.Cell>
    <Table.Cell><Label color='blue'>b: {rgb(name).b}</Label></Table.Cell>
    <Table.Cell>
+    Value: {Math.floor(hsl(name).h)}
     <Range
       background='linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%)'
-      left={`${Math.floor((hsl(name).h / 360) * 100)}%`}
+      left={`${Math.floor((hsl(name).h / 352) * 100)}%`}
       colorName={name}
     />
    </Table.Cell>

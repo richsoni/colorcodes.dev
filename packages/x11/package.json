@@ -6,12 +6,17 @@
   "author": "rich soni <rich@richsoni.com>",
   "main": "index.js",
   "dependencies": {
+    "jest": "^24.9.0"
   },
   "license": "MIT",
   "scripts": {
+    "test": "jest"
   },
-  "repository": {
-  },
-  "bugs": {
+  "repository": {},
+  "bugs": {},
+  "devDependencies": {
+    "@babel/core": "^7.7.5",
+    "@babel/preset-env": "^7.7.6",
+    "babel-jest": "^24.9.0"
   }
 }

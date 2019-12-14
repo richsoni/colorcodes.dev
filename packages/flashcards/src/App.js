@@ -22,6 +22,8 @@ import {
   Form
 } from "semantic-ui-react";
 
+const notGray = ({color}) => new Set(color.rgb).size > 1
+
 const questionSets = {
   x11: {
     header: "Full CSS Colorset",
@@ -33,6 +35,12 @@ const questionSets = {
     header: "Blues",
     description: "Based on the X11 Colors https://www.w3.org/TR/css-color-3/",
     items: x11.filter((c) => c.name.match(/blue|aqua|azure|cyan|slate|turquoise|indigo|navy/))
+  },
+
+  grays: {
+    header: "Grays",
+    description: "Based on the X11 Colors https://www.w3.org/TR/css-color-3/",
+    items: x11.filter(),
   },
 
   basic: {
