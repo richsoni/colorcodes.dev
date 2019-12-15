@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Table, Label, } from 'semantic-ui-react';
 import {sortBy} from 'lodash';
+import colors from "@colorcodes/colors";
 import Color from "color";
 
 const fgColor = (color) => {
@@ -37,12 +38,13 @@ const ColorTable = ({colors}) => {
      headerRow={() => (
        <Table.Row>{[
          {name: 'Color', sort: ({name}) => name},
-         {name: 'Red', sort: ({name}) => rgb(name).r, style: {width: '6em'}},
-         {name: 'Green', sort: ({name}) => rgb(name).g, style: {width: '6em'}},
-         {name: 'Blue', sort: ({name}) => rgb(name).b, style: {width: '6em'}},
-         {name: 'Hue', sort: ({name}) => hsl(name).h},
-         {name: 'Sat', sort: ({name}) => hsl(name).s},
-         {name: 'Lum', sort: ({name}) => hsl(name).l},
+         {name: 'Red', sort: ({r}) => r, style: {width: '6em'}},
+         {name: 'Green', sort: ({g}) => g, style: {width: '6em'}},
+         {name: 'Blue', sort: ({b}) => b, style: {width: '6em'}},
+         {name: 'YIQ', sort: ({yiq}) => yiq, style: {width: '6em'}},
+         {name: 'Hue', sort: ({h}) => h},
+         {name: 'Sat', sort: ({s}) => s},
+         {name: 'Lum', sort: ({l}) => l},
        ].map((cell) => (
          <Table.HeaderCell
            key={cell.name}
@@ -116,6 +118,7 @@ ColorTable.Row = ({
    <Table.Cell><Label color='red'>r: {rgb(name).r}</Label></Table.Cell>
    <Table.Cell><Label color='green'>g: {rgb(name).g}</Label></Table.Cell>
    <Table.Cell><Label color='blue'>b: {rgb(name).b}</Label></Table.Cell>
+   <Table.Cell>{colors[name].yiq}</Table.Cell>
    <Table.Cell>
     Value: {Math.floor(hsl(name).h)}
     <Range

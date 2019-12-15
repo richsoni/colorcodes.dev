@@ -1,0 +1,23 @@
+{
+  "name": "@colorcodes/colors",
+  "private": false,
+  "description": "X11 Color Codes",
+  "version": "0.1.0",
+  "author": "rich soni <rich@richsoni.com>",
+  "main": "index.js",
+  "dependencies": {
+    "color": "^3.1.2",
+    "jest": "^24.9.0"
+  },
+  "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {},
+  "bugs": {},
+  "devDependencies": {
+    "@babel/core": "^7.7.5",
+    "@babel/preset-env": "^7.7.6",
+    "babel-jest": "^24.9.0"
+  }
+}

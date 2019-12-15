@@ -1,24 +1,14 @@
 import React, {useState} from 'react';
 import './App.css';
-import { Table, Checkbox, Select, Card, Item, Menu, Icon, Sidebar, Button, Label, List, Input, Header, Container, Segment, Form } from 'semantic-ui-react';
-import x11 from "@colorcodes/x11";
-import Color from "color";
+import { Checkbox, Menu, Label, List, Header, Container, Segment } from 'semantic-ui-react';
+import colors from "@colorcodes/colors";
 import Logo from './Logo';
 import ColorTable from './ColorTable';
-import {Rnd} from 'react-rnd';
 import { Range, getTrackBackground } from 'react-range';
 
 const FilterCheckbox = ({value, onChange}) => (
   <Checkbox checked={value} onChange={(e, {checked}) => onChange(checked)} toggle label={value ? 'ON' : 'OFF'} />
 )
-
-const hsl = (color) => {
-  const [h,s,l] = Color(color).hsl().color
-  return {h,s,l}
-}
-
-const distance = (i, i2) => Math.abs(i - i2)
-const square = (i) => i*i
 
 const filterConfig = {
   grayscale: {
@@ -37,7 +27,7 @@ const filterConfig = {
 
   hue: { title: "Hue Range",
     filter: ({color, value}) => {
-      const hue = hsl(color.name).h
+      const hue = color.h
       const min = value[0]
       return hue >= value[0] && hue <= value[1]
     },
@@ -97,40 +87,30 @@ const filterConfig = {
   },
 }
 
-const getSortValue = (c) => {
+const getSortValue = (color) => (
   // https://stackoverflow.com/questions/3014402/sorting-a-list-of-colors-in-one-dimension
-  const {h,s,l} = hsl(c.name)
-  return l * 5 + s * 2 + h
-}
-
-const Handle = ({translateX}) => (
-  <Label circular color='black' empty style={{transform: `translate(${translateX}, 50%)`}} />
+  color.l * 5 + color.s * 2 + color.h
 )
 
 function App() {
-  const [hslFilter, setHslFilter] = useState({h: 0, s: 0, l: 0})
-  const [rndState, setRndState] = useState({
-    width: 100,
-    x: 0,
-  })
   const [filters, setFilters] = useState(Object
     .keys(filterConfig)
     .reduce((keys, key) => ({...keys, [key]: filterConfig[key].initialValue}), {})
   )
-  const hue = hslFilter.h;
 
-  const colors = Object
+  const results = Object
     .keys(filters)
     .filter((key) => filters[key]) //enabled filters
-    .reduce((colors, key) => {
+    .reduce((results, key) => {
       const filter = filterConfig[key].filter
-      return colors.filter((color) =>
+      console.log(key)
+      return results.filter((color) =>
         filter({
           color,
           value: filters[key]
         })
       );
-    }, x11)
+    }, Object.values(colors))
     .sort((a,b) => getSortValue(a) - getSortValue(b))
       
   return (<>
@@ -161,8 +141,8 @@ function App() {
        </Segment>
        <Segment>
          <Header as='h1'>Colors</Header>
-         <Header as='h4'>{colors.length} of {x11.length} shown</Header>
-         <ColorTable colors={colors} />
+         <Header as='h4'>{results.length} of {Object.keys(colors).length} shown</Header>
+         <ColorTable colors={results} />
       </Segment>
     </Container>
     </>
