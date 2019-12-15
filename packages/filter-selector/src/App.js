@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
-import { Checkbox, Menu, Label, List, Header, Container, Segment } from 'semantic-ui-react';
+import {flatten, uniq} from 'lodash';
+import { Button, Checkbox, Menu, Label, List, Header, Container, Segment } from 'semantic-ui-react';
 import colors from "@colorcodes/colors";
 import Logo from './Logo';
 import ColorTable from './ColorTable';
@@ -25,6 +26,21 @@ const filterConfig = {
     initialValue: false,
   },
 
+  hue1: {
+    title: "Tags",
+    filter: ({color, value}) => value === 'all' ? color : color.tags.includes(value),
+    control: ({value, onChange}) => {
+      console.log(uniq(flatten(Object.values(colors).map((color) => color.tags))))
+      return (
+        <Button.Group>
+          <Button key='all' color='black' onClick={() => onChange('all')}>All</Button>
+          {uniq(flatten(Object.values(colors).map((color) => color.tags))).map((category) => (
+            <Button color={category === 'grayscale' ? 'default' : category} key={category} onClick={() => onChange(category)} active={category === value}>{category}</Button>
+          ))}
+        </Button.Group>
+      )
+    }
+  },
   hue: { title: "Hue Range",
     filter: ({color, value}) => {
       const hue = color.h
