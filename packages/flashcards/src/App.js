@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
-import x11 from "@colorcodes/x11";
+import {chain, upperFirst} from "lodash";
+import colors from "@colorcodes/colors";
 import Game from "./Game";
 import GameSplash from "./GameSplash";
 import Round from './Round';
@@ -24,64 +25,21 @@ import {
 
 const notGray = ({color}) => new Set(color.rgb).size > 1
 
-const questionSets = {
-  x11: {
-    header: "Full CSS Colorset",
-    description: "Based on the X11 Colors https://www.w3.org/TR/css-color-3/",
-    items: x11
-  },
+const questionSets = chain(Object.values(colors))
+  .map((c) => c.tags)
+  .flatten()
+  .uniq()
+  .map((tag) => {
+    const items = Object.values(colors).filter((c) => c.tags.includes(tag))
+    return {
+      items,
+      header: `${upperFirst(tag)} Family`,
+      description: `${items.length} colorcodes in the ${tag} family`,
+    }
+  })
+  .value()
 
-  blues: {
-    header: "Blues",
-    description: "Based on the X11 Colors https://www.w3.org/TR/css-color-3/",
-    items: x11.filter((c) => c.name.match(/blue|aqua|azure|cyan|slate|turquoise|indigo|navy/))
-  },
-
-  grays: {
-    header: "Grays",
-    description: "Based on the X11 Colors https://www.w3.org/TR/css-color-3/",
-    items: x11.filter(),
-  },
-
-  basic: {
-    header: "Basic CSS Colors",
-    description:
-      "Listed on https://www.w3.org/TR/css-color-3/ as the basic set of colors",
-    items: x11.filter(c =>
-      [
-        "black",
-        "silver",
-        "gray",
-        "white",
-        "maroon",
-        "red",
-        "purple",
-        "fuchsia",
-        "green",
-        "lime",
-        "olive",
-        "yellow",
-        "navy",
-        "blue",
-        "teal",
-        "aqua"
-      ].includes(c.name)
-    )
-  },
-
-  blackwhite: {
-    header: "Black & White",
-    description:
-      "Listed on https://www.w3.org/TR/css-color-3/ as the basic set of colors",
-    items: x11.filter(c =>
-      [
-        "black",
-        "white",
-      ].includes(c.name)
-    )
-  },
-
-};
+console.info(questionSets)
 
 function App() {
   const [scoring, updateScoring] = useState({ correct: 0, incorrect: 0 });

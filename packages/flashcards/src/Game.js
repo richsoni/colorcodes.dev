@@ -23,7 +23,7 @@ const GameContext = React.createContext({
 });
 
 const Game = ({questionSet, onDone, children}) => {
-  const { items, header, description } = questionSet;
+  const { items, header } = questionSet;
   const [rounds, setRounds] = useState(shuffle(items));
   const [roundIndex, setRoundIndex] = useState(0);
   const [results, setResults] = useState([]);
