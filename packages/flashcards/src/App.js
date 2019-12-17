@@ -4,26 +4,13 @@ import {chain, upperFirst} from "lodash";
 import colors from "@colorcodes/colors";
 import Game from "./Game";
 import GameSplash from "./GameSplash";
-import Round from './Round';
 import Stats from './Stats';
 import {LogoSegment} from './Logo';
 import {
   Card,
-  Sidebar,
-  Menu,
-  Progress,
-  Statistic,
-  Icon,
-  Label,
-  Input,
   Container,
-  Segment,
-  Header,
-  Button,
-  Form
-} from "semantic-ui-react";
+  Header} from "semantic-ui-react";
 
-const notGray = ({color}) => new Set(color.rgb).size > 1
 
 const questionSets = chain(Object.values(colors))
   .map((c) => c.tags)
@@ -39,11 +26,7 @@ const questionSets = chain(Object.values(colors))
   })
   .value()
 
-console.info(questionSets)
-
 function App() {
-  const [scoring, updateScoring] = useState({ correct: 0, incorrect: 0 });
-  const [questionSet, setQuestionSet] = useState(null);
   const [game, setGame] = useState(null)
   const [summary, setSummary] = useState(null)
 
@@ -71,7 +54,7 @@ function App() {
         {summary && <Stats results={summary.results} />}
         {summary && <Header as='h1' style={{color: 'white', fontSize: '3em'}}>Play Again</Header>}
         <LogoSegment />
-        <Container text padded>
+        <Container text padded="true">
           <Card.Group centered>
             {Object.keys(questionSets).map(key => {
               const questionSet = questionSets[key];

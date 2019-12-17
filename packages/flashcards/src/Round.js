@@ -1,19 +1,12 @@
-import React, { useState, useReducer, useContext } from "react";
+import React, { useContext } from "react";
 import "./App.css";
-import x11 from "@colorcodes/x11";
-import { sample } from "lodash";
 import Color from "color";
 import {
   Message,
   Icon,
   Label,
-  Input,
   Container,
-  Segment,
-  Header,
-  Button,
-  Form
-} from "semantic-ui-react";
+  Segment} from "semantic-ui-react";
 import Answer from "./Answer";
 import { LogoSegment } from "./Logo";
 import sanitizeColor from './sanitizeColor';
@@ -61,7 +54,7 @@ const RoundContainer = ({ children }) => {
 };
 
 const RoundAnswer = () => {
-  const { color, onAnswer, fgColor } = useContext(RoundContext);
+  const { color, onAnswer } = useContext(RoundContext);
   return <Answer onAnswer={onAnswer} color={color} />;
 };
 
@@ -90,8 +83,7 @@ const RoundQuestion = () => {
   return ( <LogoSegment backgroundColor={color.hex} color={fgColor} />);
 }
 
-const RoundQuestionSegment = ({children, onRoundDone}) => {
-  const {fgColor, color} = useContext(RoundContext);
+const RoundQuestionSegment = ({children}) => {
   return (
     <Segment attached>
       <Message

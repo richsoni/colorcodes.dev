@@ -1,15 +1,11 @@
 import React from "react";
 import {
   Card,
-  Icon,
   Container,
-  Grid,
-  Button,
-  Header,
   Segment
 } from "semantic-ui-react";
 
-const GameSplash = ({ children, onStartGame = () => {} }) => {
+const GameSplash = ({ children }) => {
   return (
     <Segment
       placeholder
@@ -36,7 +32,7 @@ GameSplash.QuestionSet = ({ items, onClick, header, description }) => {
       }}>
         {items.map((c) => {
           return (
-            <div style={{backgroundColor: c.name}} />
+            <div key={c.name} style={{backgroundColor: c.name}} />
           )})
         }
       </div>

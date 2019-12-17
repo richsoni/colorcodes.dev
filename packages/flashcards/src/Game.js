@@ -1,30 +1,17 @@
-import React, { useState, useReducer, useContext } from "react";
+import React, { useState, useContext } from "react";
 import "./App.css";
 import { shuffle } from "lodash";
-import x11 from "@colorcodes/x11";
-import { sample } from "lodash";
 import Color from "color";
 import {
-  Message,
-  Menu,
-  Progress,
-  Icon,
-  Label,
-  Input,
-  Container,
-  Segment,
-  Header,
-  Button,
-  Form
-} from "semantic-ui-react";
+  Progress} from "semantic-ui-react";
 import Round from "./Round";
 
 const GameContext = React.createContext({
 });
 
 const Game = ({questionSet, onDone, children}) => {
-  const { items, header } = questionSet;
-  const [rounds, setRounds] = useState(shuffle(items));
+  const { items } = questionSet;
+  const [rounds] = useState(shuffle(items));
   const [roundIndex, setRoundIndex] = useState(0);
   const [results, setResults] = useState([]);
 
@@ -53,7 +40,7 @@ const GameRound = ({children}) => {
     <Round
       color={gamestate.color}
       onDone={gamestate.onRoundDone}
-    >{(roundstate) => (
+    >{() => (
       <Round.Container>
         <Round.QuestionSegment onRoundDone={gamestate.onRoundDone}>
            <Round.Question />

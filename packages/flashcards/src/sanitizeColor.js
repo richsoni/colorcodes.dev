@@ -1,7 +1,3 @@
-import x11 from "@colorcodes/x11";
-
-const colorNames = x11.map((x) => x.name)
-
 const substitutions = [
   ["grey", "gray"],
   ["magenta", "fuchsia"],
